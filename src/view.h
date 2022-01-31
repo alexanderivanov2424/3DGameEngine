@@ -11,6 +11,8 @@
 class Graphics;
 class Camera;
 
+class Application;
+
 /**
  * This is similar to your "CS1971FrontEnd" class. Here you will receive all of the input events
  * to forward to your game.
@@ -54,9 +56,9 @@ private:
     Graphics* m_graphics;
 
     // TODO (Warmup 1): You might want to remove this after completing the lab
-    std::shared_ptr<Camera> m_camera;
 
     // TODO (Warmup 1): Add an application variable to the View class
+    Application* application;
 
 private slots:
     void tick();

@@ -19,7 +19,6 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
     m_captureMouse(true),
     m_fps(0), m_frameIndex(0),
     m_graphics(nullptr),
-    m_camera(nullptr)
 {
     /** SUPPORT CODE START **/
 
@@ -90,10 +89,10 @@ void View::initializeGL()
     /** SUPPORT CODE END **/
 
     // TODO (Lab 1): Initialize camera
-    m_camera = std::make_shared<Camera>();
-    m_camera->setEye(glm::vec3(0, 1, 0));
+    //m_camera = std::make_shared<Camera>();
+    //m_camera->setEye(glm::vec3(0, 1, 0));
 
-    m_graphics->setCamera(m_camera);
+    //m_graphics->setCamera(m_camera);
 
     // TODO (Lab 1): Initialize material
     Material myFirstMaterial;
@@ -132,6 +131,7 @@ void View::paintGL()
     m_graphics->drawShape("cylinder");
 
     // TODO (Warmup 1): Call your game rendering code here
+    application->draw(m_graphics);
 
     /** SUPPORT CODE START **/
 
@@ -153,7 +153,7 @@ void View::resizeGL(int w, int h)
     /** SUPPORT CODE END **/
 
     // TODO (Lab 1): Resize the camera
-    m_camera->setScreenSize(glm::vec2(w, h));
+    //m_camera->setScreenSize(glm::vec2(w, h));
 
     // TODO (Warmup 1): Resize the application
 }
