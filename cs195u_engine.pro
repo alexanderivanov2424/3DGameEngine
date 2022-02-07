@@ -46,7 +46,8 @@ SOURCES += \
     src/engine/graphics/Shape.cpp \
     src/engine/graphics/Graphics.cpp \
     src/engine/graphics/Material.cpp \
-    src/engine/graphics/Light.cpp
+    src/engine/graphics/Light.cpp \
+    src/warmup/titlescreen.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -83,7 +84,8 @@ HEADERS += \
     src/engine/graphics/Shape.h \
     src/engine/graphics/Material.h \
     src/engine/graphics/Light.h \
-    src/engine/graphics/Constants.h
+    src/engine/graphics/Constants.h \
+    src/warmup/titlescreen.h
 
 FORMS += src/mainwindow.ui
 
@@ -97,7 +99,8 @@ OTHER_FILES += \
 
 DISTFILES += \
     res/shaders/shader.vert \
-    res/shaders/shader.frag
+    res/shaders/shader.frag \
+    src/warmup/test.txt
 
 INCLUDEPATH += src libs glm libs/glew-1.10.0/include
 DEPENDPATH += src libs glm libs/glew-1.10.0/include

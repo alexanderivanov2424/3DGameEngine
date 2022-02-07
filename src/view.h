@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <memory>
 
+#include "engine/application.h"
+
 class Graphics;
 class Camera;
 
@@ -31,6 +33,8 @@ private:
     static const int FRAMES_TO_AVERAGE = 30;
 
 private:
+    void setApplication(Application *app);
+
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);

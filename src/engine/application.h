@@ -4,8 +4,9 @@
 #include "engine/util/CommonIncludes.h"
 #include <QGLWidget>
 
+#include "engine/screen.h"
+
 class Graphics;
-class Camera;
 class Screen;
 
 class Application
@@ -26,15 +27,17 @@ public:
     void keyRepeatEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
-    void setCurrentScreen(std::string screenTag);
+    void resize(int w, int h);
+
+    void setCurrentScreen(QString screenTag);
     Screen* getCurrentScreen();
 
 public:
-    std::shared_ptr<Camera> m_camera;
 
 private:
-    std::map<std::string, *Screen> screens;
-    std::string currentScreen;
+    QMap<QString, Screen*> screens;
+    QString currentScreenTag;
+    Screen* currentScreen;
 
 };
 

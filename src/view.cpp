@@ -19,6 +19,7 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
     m_captureMouse(true),
     m_fps(0), m_frameIndex(0),
     m_graphics(nullptr),
+    application(nullptr)
 {
     /** SUPPORT CODE START **/
 
@@ -51,6 +52,10 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
 
 View::~View()
 {
+}
+
+void View::setApplication(Application *app){
+    application = app;
 }
 
 void View::initializeGL()
@@ -156,11 +161,13 @@ void View::resizeGL(int w, int h)
     //m_camera->setScreenSize(glm::vec2(w, h));
 
     // TODO (Warmup 1): Resize the application
+    application->resize(w, h);
 }
 
 void View::mousePressEvent(QMouseEvent *event)
 {
     // TODO (Warmup 1): Handle mouse press events
+    application->mousePressEvent(event);
 }
 
 void View::mouseMoveEvent(QMouseEvent *event)
@@ -189,19 +196,22 @@ void View::mouseMoveEvent(QMouseEvent *event)
     /** SUPPORT CODE END **/
 
     // TODO (Lab 1): Handle mouse movements here
-    m_camera->rotate(-deltaX / 100.f, -deltaY / 100.f);
+//    m_camera->rotate(-deltaX / 100.f, -deltaY / 100.f);
 
     // TODO (Warmup 1): Handle mouse movements here
+    application->mouseMoveEvent(event);
 }
 
 void View::mouseReleaseEvent(QMouseEvent *event)
 {
     // TODO (Warmup 1): Handle mouse release here
+    application->mouseReleaseEvent(event);
 }
 
 void View::wheelEvent(QWheelEvent *event)
 {
     // TODO (Warmup 1): Handle mouse wheel events here
+    application->wheelEvent(event);
 }
 
 void View::keyPressEvent(QKeyEvent *event)
@@ -220,21 +230,23 @@ void View::keyPressEvent(QKeyEvent *event)
     /** SUPPORT CODE END **/
 
     // TODO (Lab 1): Handle keyboard presses here
-    glm::vec3 look = m_camera->getLook();
-    glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
-    glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
+//    glm::vec3 look = m_camera->getLook();
+//    glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
+//    glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
 
-    if(event->key() == Qt::Key_W) m_camera->translate(dir);
-    if(event->key() == Qt::Key_S) m_camera->translate(-dir);
-    if(event->key() == Qt::Key_A) m_camera->translate(perp);
-    if(event->key() == Qt::Key_D) m_camera->translate(-perp);
+//    if(event->key() == Qt::Key_W) m_camera->translate(dir);
+//    if(event->key() == Qt::Key_S) m_camera->translate(-dir);
+//    if(event->key() == Qt::Key_A) m_camera->translate(perp);
+//    if(event->key() == Qt::Key_D) m_camera->translate(-perp);
 
     // TODO (Warmup 1): Handle keyboard presses here
+    application->keyPressEvent(event);
 }
 
 void View::keyRepeatEvent(QKeyEvent *event)
 {
     // TODO (Warmup 1): Handle key repeats (happens when holding down keys)
+    application->keyRepeatEvent(event);
 }
 
 void View::keyReleaseEvent(QKeyEvent *event)
@@ -249,6 +261,7 @@ void View::keyReleaseEvent(QKeyEvent *event)
     /** SUPPORT CODE END **/
 
     // TODO (Warmup 1): Handle key releases
+    application->keyReleaseEvent(event);
 }
 
 void View::tick()
@@ -276,7 +289,7 @@ void View::tick()
 
 
     // TODO (Warmup 1): Implement the game update here
-
+    application->tick(seconds);
 
     /** SUPPORT CODE START **/
 
