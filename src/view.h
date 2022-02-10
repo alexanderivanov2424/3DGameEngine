@@ -33,7 +33,6 @@ private:
     static const int FRAMES_TO_AVERAGE = 30;
 
 private:
-    void setApplication(Application *app);
 
     void initializeGL();
     void paintGL();
@@ -62,7 +61,7 @@ private:
     // TODO (Warmup 1): You might want to remove this after completing the lab
 
     // TODO (Warmup 1): Add an application variable to the View class
-    Application* application;
+    std::shared_ptr<Application> application;
 
 private slots:
     void tick();

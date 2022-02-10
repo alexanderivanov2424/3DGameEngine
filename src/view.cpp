@@ -10,6 +10,8 @@
 #include <QKeyEvent>
 #include <QWindow>
 
+#include "warmup/warmupapp.h"
+
 using namespace std;
 using namespace glm;
 
@@ -27,12 +29,12 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
     setMouseTracking(true);
 
     // Hide the cursor since this is a fullscreen app
-    if(m_captureMouse) {
-        QApplication::setOverrideCursor(Qt::BlankCursor);
-    }
-    else {
-        QApplication::setOverrideCursor(Qt::ArrowCursor);
-    }
+//    if(m_captureMouse) {
+//        QApplication::setOverrideCursor(Qt::BlankCursor);
+//    }
+//    else {
+//        QApplication::setOverrideCursor(Qt::ArrowCursor);
+//    }
 
     // View needs keyboard focus
     setFocusPolicy(Qt::StrongFocus);
@@ -48,18 +50,15 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
     m_frameIndex = 0;
 
     /** SUPPORT CODE END **/
+
+    application = std::make_shared<WarmupApp>(this, width(),height());
+
 }
 
-View::~View()
-{
+View::~View(){
 }
 
-void View::setApplication(Application *app){
-    application = app;
-}
-
-void View::initializeGL()
-{
+void View::initializeGL(){
     /** SUPPORT CODE START **/
 
     // Initialize graphics object
@@ -93,22 +92,7 @@ void View::initializeGL()
 
     /** SUPPORT CODE END **/
 
-    // TODO (Lab 1): Initialize camera
-    //m_camera = std::make_shared<Camera>();
-    //m_camera->setEye(glm::vec3(0, 1, 0));
-
-    //m_graphics->setCamera(m_camera);
-
-    // TODO (Lab 1): Initialize material
-    Material myFirstMaterial;
-    myFirstMaterial.color = glm::vec3(0, 1, 0);
-    m_graphics->addMaterial("boringGreen", myFirstMaterial);
-
-    Material mySecondMaterial;
-    myFirstMaterial.textureName = "grass";
-    m_graphics->addMaterial("grass", myFirstMaterial);
-
-    // TODO (Warmup 1): Initialize application
+    application->onStartup(m_graphics);
 }
 
 void View::paintGL()
@@ -123,19 +107,6 @@ void View::paintGL()
     /** SUPPORT CODE END **/
 
 
-    // TODO (Lab 1): Call your game rendering code here
-    m_graphics->clearTransform();
-    m_graphics->scale(20);
-    m_graphics->setMaterial("grass");
-    m_graphics->drawShape("quad");
-
-    m_graphics->clearTransform();
-    m_graphics->setDefaultMaterial();
-    m_graphics->translate(glm::vec3(1.f, 1.f, 10.f));
-    m_graphics->scale(5);
-    m_graphics->drawShape("cylinder");
-
-    // TODO (Warmup 1): Call your game rendering code here
     application->draw(m_graphics);
 
     /** SUPPORT CODE START **/
@@ -181,36 +152,29 @@ void View::mouseMoveEvent(QMouseEvent *event)
     // in that direction. Note that it is important to check that deltaX and
     // deltaY are not zero before recentering the mouse, otherwise there will
     // be an infinite loop of mouse move events.
-    int deltaX = event->x() - width() / 2;
-    int deltaY = event->y() - height() / 2;
 
-    if(m_captureMouse) {
+//    int deltaX = event->x() - width() / 2;
+//    int deltaY = event->y() - height() / 2;
 
-        if (deltaX == 0 && deltaY == 0) {
-            return;
-        }
+//    if(m_captureMouse) {
 
-        QCursor::setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
-    }
+//        if (deltaX == 0 && deltaY == 0) {
+//            return;
+//        }
+
+//        QCursor::setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
+//    }
 
     /** SUPPORT CODE END **/
 
-    // TODO (Lab 1): Handle mouse movements here
-//    m_camera->rotate(-deltaX / 100.f, -deltaY / 100.f);
-
-    // TODO (Warmup 1): Handle mouse movements here
     application->mouseMoveEvent(event);
 }
 
-void View::mouseReleaseEvent(QMouseEvent *event)
-{
-    // TODO (Warmup 1): Handle mouse release here
+void View::mouseReleaseEvent(QMouseEvent *event){
     application->mouseReleaseEvent(event);
 }
 
-void View::wheelEvent(QWheelEvent *event)
-{
-    // TODO (Warmup 1): Handle mouse wheel events here
+void View::wheelEvent(QWheelEvent *event){
     application->wheelEvent(event);
 }
 
@@ -224,28 +188,11 @@ void View::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    // Feel free to remove this
-    if (event->key() == Qt::Key_Escape) QApplication::quit();
-
     /** SUPPORT CODE END **/
-
-    // TODO (Lab 1): Handle keyboard presses here
-//    glm::vec3 look = m_camera->getLook();
-//    glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
-//    glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
-
-//    if(event->key() == Qt::Key_W) m_camera->translate(dir);
-//    if(event->key() == Qt::Key_S) m_camera->translate(-dir);
-//    if(event->key() == Qt::Key_A) m_camera->translate(perp);
-//    if(event->key() == Qt::Key_D) m_camera->translate(-perp);
-
-    // TODO (Warmup 1): Handle keyboard presses here
     application->keyPressEvent(event);
 }
 
-void View::keyRepeatEvent(QKeyEvent *event)
-{
-    // TODO (Warmup 1): Handle key repeats (happens when holding down keys)
+void View::keyRepeatEvent(QKeyEvent *event){
     application->keyRepeatEvent(event);
 }
 

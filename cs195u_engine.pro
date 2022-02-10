@@ -47,7 +47,9 @@ SOURCES += \
     src/engine/graphics/Graphics.cpp \
     src/engine/graphics/Material.cpp \
     src/engine/graphics/Light.cpp \
-    src/warmup/titlescreen.cpp
+    src/warmup/gamescreen.cpp \
+    src/warmup/titlescreen.cpp \
+    src/warmup/warmupapp.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -85,7 +87,9 @@ HEADERS += \
     src/engine/graphics/Material.h \
     src/engine/graphics/Light.h \
     src/engine/graphics/Constants.h \
-    src/warmup/titlescreen.h
+    src/warmup/gamescreen.h \
+    src/warmup/titlescreen.h \
+    src/warmup/warmupapp.h
 
 FORMS += src/mainwindow.ui
 

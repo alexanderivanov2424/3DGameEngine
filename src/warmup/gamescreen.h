@@ -1,5 +1,6 @@
-#ifndef TITLESCREEN_H
-#define TITLESCREEN_H
+#ifndef GAMESCREEN_H
+#define GAMESCREEN_H
+
 
 #include "engine/graphics/GraphicsDebug.h"
 #include "engine/graphics/Graphics.h"
@@ -8,9 +9,10 @@
 
 #include "engine/screen.h"
 
-class TitleScreen: public Screen{
+
+class GameScreen : public Screen{
 public:
-    TitleScreen(Application* application);
+    GameScreen(Application* application);
 
 public:
     void tick(float seconds) override;
@@ -33,4 +35,4 @@ private:
     QMap<int, bool> keyMap;
 };
 
-#endif // TITLESCREEN_H
+#endif // GAMESCREEN_H

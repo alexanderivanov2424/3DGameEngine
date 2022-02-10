@@ -1,37 +1,16 @@
 #include "screen.h"
+#include "engine/application.h"
 
-// TODO add components
 
-Screen::Screen(){
-
+Screen::Screen(Application* application){
+    this->application = application;
 }
 
-void Screen::tick(float seconds){
+Screen::~Screen(){
+    delete application;
 }
 
-void Screen::draw(Graphics *g){
+void Screen::setParentApplication(Application* app){
+    application = app;
 }
 
-void Screen::mousePressEvent(QMouseEvent *event){
-}
-
-void Screen::mouseMoveEvent(QMouseEvent *event){
-}
-
-void Screen::mouseReleaseEvent(QMouseEvent *event){
-}
-
-void Screen::wheelEvent(QWheelEvent *event){
-}
-
-void Screen::keyPressEvent(QKeyEvent *event){
-}
-
-void Screen::keyRepeatEvent(QKeyEvent *event){
-}
-
-void Screen::keyReleaseEvent(QKeyEvent *event){
-}
-
-void Screen::resize(int w, int h){
-}

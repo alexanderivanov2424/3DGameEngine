@@ -1,14 +1,29 @@
 #include "application.h"
 
-class Screen;
+#include "view.h"
+#include "engine/screen.h"
 
-Application::Application(){
-//    m_camera = std::make_shared<Camera>();
+
+Application::Application(View *view, int w, int h){
+    this->view = view;
+
+    width = w;
+    height = h;
+
     currentScreenTag = "";
     currentScreen = nullptr;
 }
 
 Application::~Application(){
+    delete view;
+}
+
+void Application::addScreen(QString screenTag, std::shared_ptr<Screen> screen){
+    screens[screenTag] = screen;
+    if(currentScreen == nullptr){
+        currentScreenTag = screenTag;
+        currentScreen = screen;
+    }
 }
 
 void Application::setCurrentScreen(QString screenTag){
@@ -16,8 +31,12 @@ void Application::setCurrentScreen(QString screenTag){
     currentScreen = getCurrentScreen();
 }
 
-Screen* Application::getCurrentScreen(){
-    return screens.value(currentScreenTag);
+std::shared_ptr<Screen> Application::getCurrentScreen(){
+    return screens[currentScreenTag];
+}
+
+void Application::onStartup(Graphics *g){
+
 }
 
 void Application::tick(float seconds){
@@ -58,4 +77,6 @@ void Application::keyReleaseEvent(QKeyEvent *event){
 
 void Application::resize(int w, int h){
     currentScreen->resize(w, h);
+    width = w;
+    height = h;
 }

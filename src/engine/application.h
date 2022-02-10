@@ -4,40 +4,46 @@
 #include "engine/util/CommonIncludes.h"
 #include <QGLWidget>
 
-#include "engine/screen.h"
 
 class Graphics;
 class Screen;
+class View;
 
-class Application
-{
+class Application{
 public:
-    Application();
+    Application(View *view, int w, int h);
     ~Application();
 
 public:
+    virtual void onStartup(Graphics *g);
+
     void tick(float seconds);
     void draw(Graphics *g);
 
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    void keyRepeatEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void keyRepeatEvent(QKeyEvent *event);
+    virtual void keyReleaseEvent(QKeyEvent *event);
 
     void resize(int w, int h);
 
+    void addScreen(QString screenTag, std::shared_ptr<Screen> screen);
     void setCurrentScreen(QString screenTag);
-    Screen* getCurrentScreen();
+    std::shared_ptr<Screen> getCurrentScreen();
 
 public:
 
+    View *view;
+    int width = 0;
+    int height = 0;
+
 private:
-    QMap<QString, Screen*> screens;
+    QMap<QString, std::shared_ptr<Screen>> screens;
     QString currentScreenTag;
-    Screen* currentScreen;
+    std::shared_ptr<Screen> currentScreen;
 
 };
 
