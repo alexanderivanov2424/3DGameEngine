@@ -37,14 +37,16 @@ public:
 public:
 
     View *view;
+
     int width = 0;
     int height = 0;
+
+    glm::vec2 origSize;
 
 private:
     QMap<QString, std::shared_ptr<Screen>> screens;
     QString currentScreenTag;
     std::shared_ptr<Screen> currentScreen;
-
 };
 
 #endif // APPLICATION_H

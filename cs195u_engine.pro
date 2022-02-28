@@ -22,7 +22,16 @@ win32 {
 SOURCES += \
     libs/glew-1.10.0/src/glew.c \
     src/engine/application.cpp \
+    src/engine/component.cpp \
+    src/engine/components/cameracomponent.cpp \
+    src/engine/components/playermovementcomponent.cpp \
+    src/engine/gameobject.cpp \
+    src/engine/gameworld.cpp \
     src/engine/screen.cpp \
+    src/engine/systems/collisionsystem.cpp \
+    src/engine/systems/drawsystem.cpp \
+    src/engine/systems/system.cpp \
+    src/engine/systems/ticksystem.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/view.cpp \
@@ -48,15 +57,25 @@ SOURCES += \
     src/engine/graphics/Material.cpp \
     src/engine/graphics/Light.cpp \
     src/warmup/gamescreen.cpp \
-    src/warmup/titlescreen.cpp \
-    src/warmup/warmupapp.cpp
+    src/warmup/menuscreen.cpp \
+    src/warmup/warmupapp.cpp \
+
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
     libs/stb/stb_rect_pack.h \
     libs/stb/stb_truetype.h \
     src/engine/application.h \
+    src/engine/component.h \
+    src/engine/components/cameracomponent.h \
+    src/engine/components/playermovementcomponent.h \
+    src/engine/gameobject.h \
+    src/engine/gameworld.h \
     src/engine/screen.h \
+    src/engine/systems/collisionsystem.h \
+    src/engine/systems/drawsystem.h \
+    src/engine/systems/system.h \
+    src/engine/systems/ticksystem.h \
     src/engine/util/TypeMap.h \
     src/mainwindow.h \
     src/view.h \
@@ -88,8 +107,9 @@ HEADERS += \
     src/engine/graphics/Light.h \
     src/engine/graphics/Constants.h \
     src/warmup/gamescreen.h \
-    src/warmup/titlescreen.h \
-    src/warmup/warmupapp.h
+    src/warmup/menuscreen.h \
+    src/warmup/warmupapp.h \
+
 
 FORMS += src/mainwindow.ui
 
@@ -104,7 +124,7 @@ OTHER_FILES += \
 DISTFILES += \
     res/shaders/shader.vert \
     res/shaders/shader.frag \
-    src/warmup/test.txt
+
 
 INCLUDEPATH += src libs glm libs/glew-1.10.0/include
 DEPENDPATH += src libs glm libs/glew-1.10.0/include

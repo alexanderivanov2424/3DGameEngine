@@ -1,22 +1,24 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef GAMEWORLD_H
+#define GAMEWORLD_H
 
 #include "engine/util/CommonIncludes.h"
-#include "engine/graphics/Camera.h"
 
 #include <QGLWidget>
 
-
 class Graphics;
-class Application;
-class GameWorld;
+class GameObject;
 
-class Screen{
-public:
-    Screen(std::shared_ptr<Application> application);
+class System;
 
+class GameWorld{
 public:
-    virtual void onSwitch() = 0;
+    GameWorld();
+
+    void addGameObject(std::shared_ptr<GameObject> g);
+    bool removeGameObject(std::shared_ptr<GameObject> g);
+
+    void addSystem(std::shared_ptr<System> sys);
+    bool removeSystem(std::shared_ptr<System> sys);
 
     virtual void tick(float seconds);
     virtual void draw(Graphics *g);
@@ -29,18 +31,11 @@ public:
     virtual void keyRepeatEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
-    void resize(int w, int h);
 
-    void setParentApplication(std::shared_ptr<Application> app);
+private:
+    QList<std::shared_ptr<GameObject>> gameObjects;
 
-public:
-    std::shared_ptr<Camera> camera;
-
-protected:
-    std::shared_ptr<Application> application;
-    QMap<int, bool> keyMap;
-    std::shared_ptr<GameWorld> gameWorld;
-
+    QList<std::shared_ptr<System>> systems;
 };
 
-#endif // SCREEN_H
+#endif // GAMEWORLD_H

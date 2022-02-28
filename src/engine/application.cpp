@@ -9,6 +9,7 @@ Application::Application(View *view, int w, int h){
 
     width = w;
     height = h;
+    origSize = glm::vec2(w,h);
 
     currentScreenTag = "";
     currentScreen = nullptr;
@@ -29,6 +30,7 @@ void Application::addScreen(QString screenTag, std::shared_ptr<Screen> screen){
 void Application::setCurrentScreen(QString screenTag){
     currentScreenTag = screenTag;
     currentScreen = getCurrentScreen();
+    currentScreen->onSwitch();
 }
 
 std::shared_ptr<Screen> Application::getCurrentScreen(){
@@ -76,7 +78,7 @@ void Application::keyReleaseEvent(QKeyEvent *event){
 }
 
 void Application::resize(int w, int h){
-    currentScreen->resize(w, h);
     width = w;
     height = h;
+    currentScreen->resize(w, h);
 }

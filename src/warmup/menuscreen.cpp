@@ -1,26 +1,32 @@
-#include "titlescreen.h"
+#include "menuscreen.h"
 
 #include <QApplication>
 #include <QKeyEvent>
 #include <QWindow>
+#include <QDebug>
 
-#include<QDebug>
+#include "engine/graphics/Graphics.h"
+#include "engine/graphics/Camera.h"
+#include "engine/graphics/Material.h"
 
-#include "engine/application.h"
 #include "engine/graphics/Font.h"
 
+#include "engine/application.h"
+#include "engine/systems/ticksystem.h"
 
-TitleScreen::TitleScreen(Application* application) : Screen(application){
-    camera = std::make_shared<Camera>();
-    camera->setEye(glm::vec3(0, 1, 0));
+#include "engine/gameworld.h"
 
+MenuScreen::MenuScreen(std::shared_ptr<Application> application) : Screen(application){
+    qCritical() << "created";
 }
 
-void TitleScreen::tick(float seconds){
-    //QApplication::setOverrideCursor(Qt::ArrowCursor);
+void MenuScreen::onSwitch(){
+    qCritical() << "switch";
+    QApplication::restoreOverrideCursor();
 }
 
-void TitleScreen::draw(Graphics *g){
+void MenuScreen::draw(Graphics *g){
+    qCritical() << "draw";
     g->setCamera(camera);
 
     int w = application->width;
@@ -39,10 +45,11 @@ void TitleScreen::draw(Graphics *g){
     g->translate(glm::vec3(w/2 - fm.width/2,h/2 - fm.ascent/2,0));
     g->setColor(glm::vec3(255,0,0));
     g->drawText("start", 100.0f);
-
+    qCritical() << "end draw";
 }
 
-void TitleScreen::mousePressEvent(QMouseEvent *event){
+void MenuScreen::mousePressEvent(QMouseEvent *event){
+    qCritical() << "mouse";
     int mouseX = event->x();
     int mouseY = event->y();
     int w = application->width;
@@ -54,34 +61,13 @@ void TitleScreen::mousePressEvent(QMouseEvent *event){
     }
 }
 
-void TitleScreen::mouseMoveEvent(QMouseEvent *event){
+void MenuScreen::mouseMoveEvent(QMouseEvent *event){
+    qCritical() << "mouse move";
     int deltaX = event->x() - application->width / 2;
     int deltaY = event->y() - application->height / 2;
     camera->rotate(-deltaX / 100.f, -deltaY / 100.f);
 }
 
-void TitleScreen::mouseReleaseEvent(QMouseEvent *event){
 
-}
-
-void TitleScreen::wheelEvent(QWheelEvent *event){
-}
-
-void TitleScreen::keyPressEvent(QKeyEvent *event){
-    if (event->key() == Qt::Key_Escape) QApplication::quit();
-    keyMap[event->key()] = true;
-}
-
-void TitleScreen::keyRepeatEvent(QKeyEvent *event){
-
-}
-
-void TitleScreen::keyReleaseEvent(QKeyEvent *event){
-    keyMap[event->key()] = false;
-}
-
-void TitleScreen::resize(int w, int h){
-    camera->setScreenSize(glm::vec2(w, h));
-}
 
 

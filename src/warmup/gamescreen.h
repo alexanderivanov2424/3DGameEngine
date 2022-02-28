@@ -1,20 +1,24 @@
 #ifndef GAMESCREEN_H
 #define GAMESCREEN_H
 
-
-#include "engine/graphics/GraphicsDebug.h"
-#include "engine/graphics/Graphics.h"
-#include "engine/graphics/Camera.h"
-#include "engine/graphics/Material.h"
-
+#include "engine/util/CommonIncludes.h"
 #include "engine/screen.h"
 
+class Screen;
+class Graphics;
+class GameObject;
 
-class GameScreen : public Screen{
-public:
-    GameScreen(Application* application);
+class System;
+class TickSystem;
+class DrawSystem;
+class CollisionSystem;
 
+class GameScreen : public Screen {
 public:
+    GameScreen(std::shared_ptr<Application> application);
+
+    void onSwitch() override;
+
     void tick(float seconds) override;
     void draw(Graphics *g) override;
 
@@ -26,13 +30,12 @@ public:
     void keyRepeatEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
-    void resize(int w, int h) override;
-
-public:
-    std::shared_ptr<Camera> camera;
-
 private:
-    QMap<int, bool> keyMap;
+    std::shared_ptr<TickSystem> tickSystem;
+    std::shared_ptr<DrawSystem> drawSystem;
+    std::shared_ptr<CollisionSystem> collisionSystem;
+
+    float playerY = 0, playerYVel = 0, playerX = 0;
 };
 
 #endif // GAMESCREEN_H

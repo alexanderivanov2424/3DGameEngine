@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QKeyEvent>
 #include <QWindow>
+#include <QDebug>
 
 #include "warmup/warmupapp.h"
 
@@ -92,11 +93,12 @@ void View::initializeGL(){
 
     /** SUPPORT CODE END **/
 
+    qCritical() << "view on startup";
     application->onStartup(m_graphics);
 }
 
-void View::paintGL()
-{
+void View::paintGL(){
+
     /** SUPPORT CODE START **/
 
     m_graphics->setClearColor(glm::vec3(0, 0, 0));
