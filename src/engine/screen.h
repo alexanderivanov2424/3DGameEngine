@@ -2,7 +2,7 @@
 #define SCREEN_H
 
 #include "engine/util/CommonIncludes.h"
-#include "engine/graphics/Camera.h"
+
 
 #include <QGLWidget>
 
@@ -10,6 +10,8 @@
 class Graphics;
 class Application;
 class GameWorld;
+class Camera;
+
 
 class Screen{
 public:
@@ -35,10 +37,10 @@ public:
 
 public:
     std::shared_ptr<Camera> camera;
+    std::shared_ptr<QMap<int, bool>> keyMap;
+    std::shared_ptr<Application> application;
 
 protected:
-    std::shared_ptr<Application> application;
-    QMap<int, bool> keyMap;
     std::shared_ptr<GameWorld> gameWorld;
 
 };

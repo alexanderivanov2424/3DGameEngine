@@ -5,20 +5,26 @@
 
 #include <QGLWidget>
 
+class Screen;
+
 class Graphics;
 class GameObject;
+class Camera;
 
 class System;
 
 class GameWorld{
 public:
-    GameWorld();
+    GameWorld(std::shared_ptr<Screen> screen);
 
     void addGameObject(std::shared_ptr<GameObject> g);
     bool removeGameObject(std::shared_ptr<GameObject> g);
 
     void addSystem(std::shared_ptr<System> sys);
     bool removeSystem(std::shared_ptr<System> sys);
+
+    std::shared_ptr<QMap<int, bool>> getKeyMap();
+    std::shared_ptr<Camera> getCamera();
 
     virtual void tick(float seconds);
     virtual void draw(Graphics *g);
@@ -32,7 +38,8 @@ public:
     virtual void keyReleaseEvent(QKeyEvent *event);
 
 
-private:
+public:
+    std::shared_ptr<Screen> screen;
     QList<std::shared_ptr<GameObject>> gameObjects;
 
     QList<std::shared_ptr<System>> systems;

@@ -1,6 +1,8 @@
 #include "gameworld.h"
 
+#include <QDebug>
 
+#include "engine/screen.h"
 
 #include "engine/systems/system.h"
 #include "engine/systems/ticksystem.h"
@@ -11,8 +13,8 @@
 #include "engine/component.h"
 #include "engine/util/TypeMap.h"
 
-GameWorld::GameWorld(){
-
+GameWorld::GameWorld(std::shared_ptr<Screen> screen){
+    this->screen = screen;
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> g){
@@ -45,7 +47,15 @@ void GameWorld::addSystem(std::shared_ptr<System> sys){
 }
 
 bool GameWorld::removeSystem(std::shared_ptr<System> sys){
-    systems.removeOne(sys);
+    return systems.removeOne(sys);
+}
+
+std::shared_ptr<QMap<int, bool>> GameWorld::getKeyMap(){
+    return screen->keyMap;
+}
+
+std::shared_ptr<Camera> GameWorld::getCamera(){
+    return screen->camera;
 }
 
 void GameWorld::tick(float seconds){
@@ -54,20 +64,75 @@ void GameWorld::tick(float seconds){
             sys->tick(seconds);
         }
     }
-}
 
-void GameWorld::draw(Graphics *g){
     for(std::shared_ptr<System> sys : systems){
-        if(DRAW_SYSTEM & sys->systemFlag()){
-            sys->draw(g);
+        if(COLLISION_SYSTEM & sys->systemFlag()){
+            sys->tick(seconds);
         }
     }
 }
 
-void GameWorld::mousePressEvent(QMouseEvent *event){}
-void GameWorld::mouseMoveEvent(QMouseEvent *event){}
-void GameWorld::mouseReleaseEvent(QMouseEvent *event){}
-void GameWorld::wheelEvent(QWheelEvent *event){}
-void GameWorld::keyPressEvent(QKeyEvent *event){}
-void GameWorld::keyRepeatEvent(QKeyEvent *event){}
-void GameWorld::keyReleaseEvent(QKeyEvent *event){}
+void GameWorld::draw(Graphics *g){
+    QList<std::shared_ptr<System>>::iterator sys;
+    for(sys = systems.begin(); sys != systems.end(); sys++){
+        if(DRAW_SYSTEM & (*sys)->systemFlag()){
+            (*sys)->draw(g);
+        }
+    }
+}
+
+void GameWorld::mousePressEvent(QMouseEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->mousePressEvent(event);
+        }
+    }
+}
+
+void GameWorld::mouseMoveEvent(QMouseEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->mouseMoveEvent(event);
+        }
+    }
+}
+
+void GameWorld::mouseReleaseEvent(QMouseEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->mouseReleaseEvent(event);
+        }
+    }
+}
+
+void GameWorld::wheelEvent(QWheelEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->wheelEvent(event);
+        }
+    }
+}
+
+void GameWorld::keyPressEvent(QKeyEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->keyPressEvent(event);
+        }
+    }
+}
+
+void GameWorld::keyRepeatEvent(QKeyEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->keyRepeatEvent(event);
+        }
+    }
+}
+
+void GameWorld::keyReleaseEvent(QKeyEvent *event){
+    for(std::shared_ptr<System> sys : systems){
+        if(INPUT_SYSTEM & sys->systemFlag()){
+            sys->keyReleaseEvent(event);
+        }
+    }
+}

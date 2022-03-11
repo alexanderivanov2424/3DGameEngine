@@ -9,9 +9,9 @@ class TickSystem : public System {
 public:
     TickSystem();
 
-    SystemFlag systemFlag();
+    SystemFlag systemFlag() override;
 
-    void tick(float seconds);
+    void tick(float seconds) override;
 };
 
 #endif // TICKSYSTEM_H

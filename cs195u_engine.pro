@@ -21,19 +21,26 @@ win32 {
 
 SOURCES += \
     libs/glew-1.10.0/src/glew.c \
+    src/OBJLoader.cpp \
     src/engine/application.cpp \
     src/engine/component.cpp \
     src/engine/components/cameracomponent.cpp \
+    src/engine/components/cylindercollisioncomponent.cpp \
+    src/engine/components/cylindercomponent.cpp \
     src/engine/components/playermovementcomponent.cpp \
+    src/engine/components/transformcomponent.cpp \
     src/engine/gameobject.cpp \
     src/engine/gameworld.cpp \
     src/engine/screen.cpp \
     src/engine/systems/collisionsystem.cpp \
     src/engine/systems/drawsystem.cpp \
+    src/engine/systems/inputsystem.cpp \
     src/engine/systems/system.cpp \
     src/engine/systems/ticksystem.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/platformer/platformerapp.cpp \
+    src/platformer/platformerscreen.cpp \
     src/view.cpp \
     src/viewformat.cpp \
     src/engine/graphics/ResourceLoader.cpp \
@@ -56,6 +63,7 @@ SOURCES += \
     src/engine/graphics/Graphics.cpp \
     src/engine/graphics/Material.cpp \
     src/engine/graphics/Light.cpp \
+    src/warmup/endscreen.cpp \
     src/warmup/gamescreen.cpp \
     src/warmup/menuscreen.cpp \
     src/warmup/warmupapp.cpp \
@@ -65,19 +73,26 @@ HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
     libs/stb/stb_rect_pack.h \
     libs/stb/stb_truetype.h \
+    src/OBJLoader.h \
     src/engine/application.h \
     src/engine/component.h \
     src/engine/components/cameracomponent.h \
+    src/engine/components/cylindercollisioncomponent.h \
+    src/engine/components/cylindercomponent.h \
     src/engine/components/playermovementcomponent.h \
+    src/engine/components/transformcomponent.h \
     src/engine/gameobject.h \
     src/engine/gameworld.h \
     src/engine/screen.h \
     src/engine/systems/collisionsystem.h \
     src/engine/systems/drawsystem.h \
+    src/engine/systems/inputsystem.h \
     src/engine/systems/system.h \
     src/engine/systems/ticksystem.h \
     src/engine/util/TypeMap.h \
     src/mainwindow.h \
+    src/platformer/platformerapp.h \
+    src/platformer/platformerscreen.h \
     src/view.h \
     src/viewformat.h \
     src/engine/util/CommonIncludes.h \
@@ -106,6 +121,7 @@ HEADERS += \
     src/engine/graphics/Material.h \
     src/engine/graphics/Light.h \
     src/engine/graphics/Constants.h \
+    src/warmup/endscreen.h \
     src/warmup/gamescreen.h \
     src/warmup/menuscreen.h \
     src/warmup/warmupapp.h \
@@ -122,6 +138,19 @@ OTHER_FILES += \
     res/images/grass.png \
 
 DISTFILES += \
+    res/obj/large_environment.obj \
+    res/obj/level_easy.obj \
+    res/obj/level_easy.png \
+    res/obj/level_easy_channels.png \
+    res/obj/level_easy_navmesh.obj \
+    res/obj/level_hard.obj \
+    res/obj/level_hard.png \
+    res/obj/level_hard_channels.png \
+    res/obj/level_island.obj \
+    res/obj/level_island.png \
+    res/obj/level_island_channels.png \
+    res/obj/level_island_navmesh.obj \
+    res/obj/level_island_navmesh_eroded.obj \
     res/shaders/shader.vert \
     res/shaders/shader.frag \
 

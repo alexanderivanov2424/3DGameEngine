@@ -1,5 +1,7 @@
 #include "ticksystem.h"
 
+#include <QDebug>
+
 #include "engine/component.h"
 
 TickSystem::TickSystem() : System() {

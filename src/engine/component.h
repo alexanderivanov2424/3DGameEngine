@@ -15,18 +15,18 @@ public:
 
     virtual SystemFlag requiresSystems() = 0;
 
-    virtual void tick(float seconds) = 0;
-    virtual void draw(Graphics *g) = 0;
+    virtual void tick(float seconds){};
+    virtual void draw(Graphics *g){};
 
-    virtual void mousePressEvent(QMouseEvent *event) = 0;
-    virtual void mouseMoveEvent(QMouseEvent *event) = 0;
-    virtual void mouseReleaseEvent(QMouseEvent *event) = 0;
-    virtual void wheelEvent(QWheelEvent *event) = 0;
-    virtual void keyPressEvent(QKeyEvent *event) = 0;
-    virtual void keyRepeatEvent(QKeyEvent *event) = 0;
-    virtual void keyReleaseEvent(QKeyEvent *event) = 0;
+    virtual void mousePressEvent(QMouseEvent *event){};
+    virtual void mouseMoveEvent(QMouseEvent *event){};
+    virtual void mouseReleaseEvent(QMouseEvent *event){};
+    virtual void wheelEvent(QWheelEvent *event){};
+    virtual void keyPressEvent(QKeyEvent *event){};
+    virtual void keyRepeatEvent(QKeyEvent *event){};
+    virtual void keyReleaseEvent(QKeyEvent *event){};
 
-private:
+public:
     std::shared_ptr<GameObject> gameObject;
 };
 

@@ -1,5 +1,7 @@
 #include "application.h"
 
+#include <QDebug>
+
 #include "view.h"
 #include "engine/screen.h"
 
@@ -28,6 +30,10 @@ void Application::addScreen(QString screenTag, std::shared_ptr<Screen> screen){
 }
 
 void Application::setCurrentScreen(QString screenTag){
+    if(!screens.contains(screenTag)){
+        qWarning() << "Screen '" << screenTag << "' Not in application";
+        return;
+    }
     currentScreenTag = screenTag;
     currentScreen = getCurrentScreen();
     currentScreen->onSwitch();

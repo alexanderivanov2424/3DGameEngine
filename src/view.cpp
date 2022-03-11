@@ -12,6 +12,7 @@
 #include <QDebug>
 
 #include "warmup/warmupapp.h"
+#include "platformer/platformerapp.h"
 
 using namespace std;
 using namespace glm;
@@ -52,7 +53,8 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
 
     /** SUPPORT CODE END **/
 
-    application = std::make_shared<WarmupApp>(this, width(),height());
+    //application = std::make_shared<WarmupApp>(this, width(),height());
+    application = std::make_shared<PlatformerApp>(this, width(),height());
 
 }
 
@@ -93,12 +95,10 @@ void View::initializeGL(){
 
     /** SUPPORT CODE END **/
 
-    qCritical() << "view on startup";
     application->onStartup(m_graphics);
 }
 
 void View::paintGL(){
-
     /** SUPPORT CODE START **/
 
     m_graphics->setClearColor(glm::vec3(0, 0, 0));

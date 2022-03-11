@@ -11,7 +11,8 @@ enum SystemFlag {
     NO_SYSTEM = 0,
     TICK_SYSTEM = 1,
     DRAW_SYSTEM = 2,
-    COLLISION_SYSTEM = 4
+    COLLISION_SYSTEM = 4,
+    INPUT_SYSTEM = 8
 };
 
 inline SystemFlag operator|(SystemFlag a, SystemFlag b){

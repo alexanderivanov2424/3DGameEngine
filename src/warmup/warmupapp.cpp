@@ -4,6 +4,7 @@
 
 #include "warmup/menuscreen.h"
 #include "warmup/gamescreen.h"
+#include "warmup/endscreen.h"
 #include "view.h"
 
 
@@ -17,23 +18,24 @@ WarmupApp::~WarmupApp(){
 }
 
 void WarmupApp::onStartup(Graphics *g){
-    qCritical() << "startup";
+    Material playerMaterial;
+    playerMaterial.color = glm::vec3(0, 0, 1);
+    g->addMaterial("player", playerMaterial);
 
-    Material myFirstMaterial;
-    myFirstMaterial.color = glm::vec3(0, 1, 0);
-    g->addMaterial("boringGreen", myFirstMaterial);
+    Material tokenMaterial;
+    tokenMaterial.color = glm::vec3(1, 0, 0);
+    g->addMaterial("token", tokenMaterial);
 
     Material mySecondMaterial;
-    myFirstMaterial.textureName = "grass";
-    g->addMaterial("grass", myFirstMaterial);
+    mySecondMaterial.textureName = "grass";
+    g->addMaterial("grass", mySecondMaterial);
 
-    qCritical() << "make screen";
     menuScreen = std::make_shared<MenuScreen>((std::shared_ptr<Application>)this);
-//    gameScreen = std::make_shared<GameScreen>((std::shared_ptr<Application>)this);
+    gameScreen = std::make_shared<GameScreen>((std::shared_ptr<Application>)this);
+    endScreen = std::make_shared<EndScreen>((std::shared_ptr<Application>)this);
 
-    qCritical() << "add screen";
     Application::addScreen("menuScreen", menuScreen);
-//    Application::addScreen("gameScreen", gameScreen);
+    Application::addScreen("gameScreen", gameScreen);
+    Application::addScreen("endScreen", endScreen);
 
-    qCritical() << "done";
 }

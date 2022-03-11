@@ -17,16 +17,14 @@
 #include "engine/gameworld.h"
 
 MenuScreen::MenuScreen(std::shared_ptr<Application> application) : Screen(application){
-    qCritical() << "created";
+
 }
 
 void MenuScreen::onSwitch(){
-    qCritical() << "switch";
     QApplication::restoreOverrideCursor();
 }
 
 void MenuScreen::draw(Graphics *g){
-    qCritical() << "draw";
     g->setCamera(camera);
 
     int w = application->width;
@@ -45,11 +43,9 @@ void MenuScreen::draw(Graphics *g){
     g->translate(glm::vec3(w/2 - fm.width/2,h/2 - fm.ascent/2,0));
     g->setColor(glm::vec3(255,0,0));
     g->drawText("start", 100.0f);
-    qCritical() << "end draw";
 }
 
 void MenuScreen::mousePressEvent(QMouseEvent *event){
-    qCritical() << "mouse";
     int mouseX = event->x();
     int mouseY = event->y();
     int w = application->width;
@@ -62,7 +58,6 @@ void MenuScreen::mousePressEvent(QMouseEvent *event){
 }
 
 void MenuScreen::mouseMoveEvent(QMouseEvent *event){
-    qCritical() << "mouse move";
     int deltaX = event->x() - application->width / 2;
     int deltaY = event->y() - application->height / 2;
     camera->rotate(-deltaX / 100.f, -deltaY / 100.f);

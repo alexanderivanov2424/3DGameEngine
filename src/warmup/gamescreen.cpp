@@ -3,55 +3,99 @@
 #include <QApplication>
 #include <QWindow>
 #include <QKeyEvent>
+#include <QDebug>
 
 #include "view.h"
 #include "engine/application.h"
+
 #include "engine/graphics/Graphics.h"
+#include "engine/graphics/Camera.h"
+#include "engine/graphics/Material.h"
 
 #include "engine/systems/system.h"
 #include "engine/systems/ticksystem.h"
 #include "engine/systems/drawsystem.h"
 #include "engine/systems/collisionsystem.h"
+#include "engine/systems/inputsystem.h"
 
 #include "engine/gameworld.h"
+#include "engine/gameobject.h"
+#include "engine/component.h"
+
+#include "engine/components/transformcomponent.h"
+#include "engine/components/playermovementcomponent.h"
+#include "engine/components/cameracomponent.h"
+#include "engine/components/cylindercomponent.h"
+#include "engine/components/cylindercollisioncomponent.h"
+
+void warmup_callback(std::shared_ptr<GameObject> g){
+    g->getComponent<PlayerMovementComponent>()->hitGround();
+}
+
+void warmup_endGame(std::shared_ptr<GameObject> g){
+    g->gameWorld->screen->application->setCurrentScreen("endScreen");
+}
+
+void warmup_makePlatform(std::shared_ptr<GameWorld> gameWorld, glm::vec3 location, float height){
+    std::shared_ptr<GameObject> platform = std::make_shared<GameObject>(gameWorld);
+    platform->addComponent<TransformComponent>(std::make_shared<TransformComponent>(platform, location));
+    platform->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(platform, 4, height));
+    platform->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(platform, 4, height, true, nullptr));
+    gameWorld->addGameObject(platform);
+}
+
+void warmup_makeWinToken(std::shared_ptr<GameWorld> gameWorld, glm::vec3 location){
+    std::shared_ptr<GameObject> platform = std::make_shared<GameObject>(gameWorld);
+    platform->addComponent<TransformComponent>(std::make_shared<TransformComponent>(platform, location));
+    platform->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(platform, .5, 1, "token"));
+    platform->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(platform, .5, 1, true, &warmup_endGame));
+    gameWorld->addGameObject(platform);
+}
 
 GameScreen::GameScreen(std::shared_ptr<Application> application) : Screen(application){
     tickSystem = std::make_shared<TickSystem>();
     drawSystem = std::make_shared<DrawSystem>();
     collisionSystem = std::make_shared<CollisionSystem>();
+    inputSystem = std::make_shared<InputSystem>();
 
     this->gameWorld->addSystem(tickSystem);
+    this->gameWorld->addSystem(drawSystem);
+    this->gameWorld->addSystem(collisionSystem);
+    this->gameWorld->addSystem(inputSystem);
+
+    player = std::make_shared<GameObject>(gameWorld);
+    player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(player));
+    player->addComponent<PlayerMovementComponent>(std::make_shared<PlayerMovementComponent>(player));
+    player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(player));
+    player->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(player, 1, 3, "player"));
+    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(player, 1, 3, false, &warmup_callback));
+    gameWorld->addGameObject(player);
+
+    std::shared_ptr<GameObject> platform = std::make_shared<GameObject>(gameWorld);
+    platform->addComponent<TransformComponent>(std::make_shared<TransformComponent>(platform, glm::vec3(20,0,10)));
+    platform->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(platform, 1, 2));
+    platform->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(platform, 1, 2, false, nullptr));
+    gameWorld->addGameObject(platform);
+
+
+    warmup_makePlatform(gameWorld, glm::vec3(10,0,10), 2);
+    warmup_makePlatform(gameWorld, glm::vec3(10,0,20), 3);
+    warmup_makePlatform(gameWorld, glm::vec3(10,0,30), 4);
+    warmup_makePlatform(gameWorld, glm::vec3(20,0,40), 5);
+
+    warmup_makeWinToken(gameWorld, glm::vec3(20,6,40));
+
 }
+
 
 void GameScreen::onSwitch(){
     QApplication::setOverrideCursor(Qt::BlankCursor);
+    player->getComponent<TransformComponent>()->transform = glm::vec3(0,0,0);
 }
 
-void GameScreen::tick(float seconds){
-    glm::vec3 look = camera->getLook();
-    glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
-    dir *= .5f;
-    glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
-    if(keyMap[Qt::Key_W]) camera->translate(dir);
-    if(keyMap[Qt::Key_S]) camera->translate(-dir);
-    if(keyMap[Qt::Key_A]) camera->translate(perp);
-    if(keyMap[Qt::Key_D]) camera->translate(-perp);
-
-
-    playerY += playerYVel * seconds;
-    playerYVel += -20 * seconds;
-    if(playerY <= 1){
-        playerY = 1;
-        playerYVel = 0;
-    }
-    if(keyMap[Qt::Key_Space] && playerY == 1){
-        playerYVel = 10;
-    }
-    glm::vec3 camPos = camera->getEye();
-    camera->setEye(glm::vec3(camPos.x, playerY, camPos.z));
-}
 
 void GameScreen::draw(Graphics *g){
+    Screen::draw(g);
     int w = application->width;
     int h = application->height;
     camera->setScreenSize(glm::vec2(w, h));
@@ -67,43 +111,10 @@ void GameScreen::draw(Graphics *g){
             g->drawShape("quad");
         }
     }
-
-
-    g->clearTransform();
-    g->setDefaultMaterial();
-    g->translate(glm::vec3(1.f, 1.f, 10.f));
-    g->scale(5);
-    g->drawShape("cylinder");
 }
-
-void GameScreen::mousePressEvent(QMouseEvent *event){}
-
-void GameScreen::mouseMoveEvent(QMouseEvent *event){
-    int w = application->width;
-    int h = application->height;
-    int deltaX = event->x() - w / 2;
-    int deltaY = event->y() - h / 2;
-
-    if (deltaX == 0 && deltaY == 0) {
-        return;
-    }
-
-    QCursor::setPos(application->view->mapToGlobal(QPoint(w / 2, h / 2)));
-
-    camera->rotate(-deltaX / 100.f, -deltaY / 100.f);
-}
-
-void GameScreen::mouseReleaseEvent(QMouseEvent *event){}
-
-void GameScreen::wheelEvent(QWheelEvent *event){}
 
 void GameScreen::keyPressEvent(QKeyEvent *event){
-    if (event->key() == Qt::Key_Escape) application->setCurrentScreen("titleScreen");
-    keyMap[event->key()] = true;
+    Screen::keyPressEvent(event);
+    if (event->key() == Qt::Key_Escape) application->setCurrentScreen("menuScreen");
 }
 
-void GameScreen::keyRepeatEvent(QKeyEvent *event){}
-
-void GameScreen::keyReleaseEvent(QKeyEvent *event){
-    Screen::keyReleaseEvent(event);
-}

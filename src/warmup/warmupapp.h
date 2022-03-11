@@ -21,6 +21,7 @@ public:
 public:
     std::shared_ptr<Screen> menuScreen;
     std::shared_ptr<Screen> gameScreen;
+    std::shared_ptr<Screen> endScreen;
 
 };
 #endif // WARMUPAPP_H

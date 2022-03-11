@@ -8,9 +8,11 @@ class CollisionSystem : public System {
 public:
     CollisionSystem();
 
-    SystemFlag systemFlag();
+    SystemFlag systemFlag() override;
 
-    void tick(float seconds);
+    void tick(float seconds) override;
+
+
 };
 
 #endif // COLLISIONSYSTEM_H

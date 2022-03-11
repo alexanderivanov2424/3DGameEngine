@@ -12,9 +12,9 @@ class DrawSystem  : public System {
 public:
     DrawSystem();
 
-    SystemFlag systemFlag();
+    SystemFlag systemFlag() override;
 
-    void draw(Graphics *g);
+    void draw(Graphics *g) override;
 };
 
 #endif // DRAWSYSTEM_H
