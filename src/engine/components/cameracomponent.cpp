@@ -25,7 +25,7 @@ void CameraComponent::tick(float seconds){
     std::shared_ptr<Camera> camera = this->gameObject->gameWorld->getCamera();
 
     glm::vec3 look = camera->getLook();
-    camera->setEye(transform->transform - zoom * look + glm::vec3(0,1,0));
+    camera->setEye(transform->transform - zoom * look);
 }
 
 

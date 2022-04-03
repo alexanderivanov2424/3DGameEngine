@@ -12,6 +12,10 @@ class GameObject;
 class Camera;
 
 class System;
+class TickSystem;
+class DrawSystem;
+class CollisionSystem;
+class InputSystem;
 
 class GameWorld{
 public:
@@ -19,9 +23,6 @@ public:
 
     void addGameObject(std::shared_ptr<GameObject> g);
     bool removeGameObject(std::shared_ptr<GameObject> g);
-
-    void addSystem(std::shared_ptr<System> sys);
-    bool removeSystem(std::shared_ptr<System> sys);
 
     std::shared_ptr<QMap<int, bool>> getKeyMap();
     std::shared_ptr<Camera> getCamera();
@@ -41,6 +42,11 @@ public:
 public:
     std::shared_ptr<Screen> screen;
     QList<std::shared_ptr<GameObject>> gameObjects;
+
+    std::shared_ptr<TickSystem> tickSystem;
+    std::shared_ptr<DrawSystem> drawSystem;
+    std::shared_ptr<CollisionSystem> collisionSystem;
+    std::shared_ptr<InputSystem> inputSystem;
 
     QList<std::shared_ptr<System>> systems;
 };

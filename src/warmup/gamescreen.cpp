@@ -53,16 +53,6 @@ void warmup_makeWinToken(std::shared_ptr<GameWorld> gameWorld, glm::vec3 locatio
 }
 
 GameScreen::GameScreen(std::shared_ptr<Application> application) : Screen(application){
-    tickSystem = std::make_shared<TickSystem>();
-    drawSystem = std::make_shared<DrawSystem>();
-    collisionSystem = std::make_shared<CollisionSystem>();
-    inputSystem = std::make_shared<InputSystem>();
-
-    this->gameWorld->addSystem(tickSystem);
-    this->gameWorld->addSystem(drawSystem);
-    this->gameWorld->addSystem(collisionSystem);
-    this->gameWorld->addSystem(inputSystem);
-
     player = std::make_shared<GameObject>(gameWorld);
     player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(player));
     player->addComponent<PlayerMovementComponent>(std::make_shared<PlayerMovementComponent>(player));

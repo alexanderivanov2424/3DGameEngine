@@ -27,11 +27,16 @@ SOURCES += \
     src/engine/components/cameracomponent.cpp \
     src/engine/components/cylindercollisioncomponent.cpp \
     src/engine/components/cylindercomponent.cpp \
+    src/engine/components/ellipsoidcomponent.cpp \
+    src/engine/components/meshslidecomponent.cpp \
     src/engine/components/playermovementcomponent.cpp \
     src/engine/components/transformcomponent.cpp \
     src/engine/gameobject.cpp \
     src/engine/gameworld.cpp \
     src/engine/screen.cpp \
+    src/engine/shapes/ellipsoid.cpp \
+    src/engine/shapes/mesh.cpp \
+    src/engine/systems/collisionUtils/meshcollision.cpp \
     src/engine/systems/collisionsystem.cpp \
     src/engine/systems/drawsystem.cpp \
     src/engine/systems/inputsystem.cpp \
@@ -79,11 +84,16 @@ HEADERS += \
     src/engine/components/cameracomponent.h \
     src/engine/components/cylindercollisioncomponent.h \
     src/engine/components/cylindercomponent.h \
+    src/engine/components/ellipsoidcomponent.h \
+    src/engine/components/meshslidecomponent.h \
     src/engine/components/playermovementcomponent.h \
     src/engine/components/transformcomponent.h \
     src/engine/gameobject.h \
     src/engine/gameworld.h \
     src/engine/screen.h \
+    src/engine/shapes/ellipsoid.h \
+    src/engine/shapes/mesh.h \
+    src/engine/systems/collisionUtils/meshcollision.h \
     src/engine/systems/collisionsystem.h \
     src/engine/systems/drawsystem.h \
     src/engine/systems/inputsystem.h \

@@ -27,11 +27,6 @@ public:
 private:
     std::shared_ptr<GameObject> player;
 
-    std::shared_ptr<TickSystem> tickSystem;
-    std::shared_ptr<DrawSystem> drawSystem;
-    std::shared_ptr<CollisionSystem> collisionSystem;
-    std::shared_ptr<InputSystem> inputSystem;
-
     float playerY = 0, playerYVel = 0, playerX = 0;
 };
 

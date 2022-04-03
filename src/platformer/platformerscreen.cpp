@@ -23,38 +23,27 @@
 #include "engine/component.h"
 
 #include "engine/components/transformcomponent.h"
-#include "engine/components/playermovementcomponent.h"
+#include "engine/components/meshslidecomponent.h"
 #include "engine/components/cameracomponent.h"
-#include "engine/components/cylindercomponent.h"
-#include "engine/components/cylindercollisioncomponent.h"
+#include "engine/components/ellipsoidcomponent.h"
 
+#include "OBJLoader.h"
+#include "engine/shapes/mesh.h"
 
 PlatformerScreen::PlatformerScreen(std::shared_ptr<Application> application) : Screen(application){
-    tickSystem = std::make_shared<TickSystem>();
-    drawSystem = std::make_shared<DrawSystem>();
-    collisionSystem = std::make_shared<CollisionSystem>();
-    inputSystem = std::make_shared<InputSystem>();
+    OBJData obj = OBJLoader::loadOBJ("C://Users//Alexander\ Ivanov//Desktop//3D\ Game\ Engines//engine//engine//res//obj//level_easy.obj");
+    std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(obj.positions, obj.normals);
 
-    this->gameWorld->addSystem(tickSystem);
-    this->gameWorld->addSystem(drawSystem);
-    this->gameWorld->addSystem(collisionSystem);
-    this->gameWorld->addSystem(inputSystem);
 
     player = std::make_shared<GameObject>(gameWorld);
-    player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(player));
-    player->addComponent<PlayerMovementComponent>(std::make_shared<PlayerMovementComponent>(player));
+    player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(player, glm::vec3(1,6,1)));
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(player));
-    player->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(player, 1, 3, "player"));
-    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(player, 1, 3, false, nullptr));
+
+    std::shared_ptr<Ellipsoid> ellipsoid = std::make_shared<Ellipsoid>(glm::vec3(.25,.25,.25));
+
+    player->addComponent<EllipsoidComponent>(std::make_shared<EllipsoidComponent>(player, ellipsoid, "player"));
+    player->addComponent<MeshSlideComponent>(std::make_shared<MeshSlideComponent>(player, mesh, ellipsoid));
     gameWorld->addGameObject(player);
-
-    std::shared_ptr<GameObject> platform = std::make_shared<GameObject>(gameWorld);
-    platform->addComponent<TransformComponent>(std::make_shared<TransformComponent>(platform, glm::vec3(20,0,10)));
-    platform->addComponent<CylinderComponent>(std::make_shared<CylinderComponent>(platform, 1, 2));
-    platform->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(platform, 1, 2, false, nullptr));
-    gameWorld->addGameObject(platform);
-
-
 }
 
 
@@ -83,8 +72,9 @@ void PlatformerScreen::draw(Graphics *g){
 
     g->clearTransform();
     g->translate(glm::vec3(0,0,0));
-    //g->setMaterial("default");
+    g->setMaterial("grass");
     g->drawShape("mesh");
+
 }
 
 void PlatformerScreen::keyPressEvent(QKeyEvent *event){

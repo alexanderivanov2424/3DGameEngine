@@ -13,8 +13,24 @@
 #include "engine/component.h"
 #include "engine/util/TypeMap.h"
 
+#include "engine/systems/system.h"
+#include "engine/systems/ticksystem.h"
+#include "engine/systems/drawsystem.h"
+#include "engine/systems/collisionsystem.h"
+#include "engine/systems/inputsystem.h"
+
 GameWorld::GameWorld(std::shared_ptr<Screen> screen){
     this->screen = screen;
+
+    tickSystem = std::make_shared<TickSystem>();
+    drawSystem = std::make_shared<DrawSystem>();
+    collisionSystem = std::make_shared<CollisionSystem>();
+    inputSystem = std::make_shared<InputSystem>();
+
+    systems.append(tickSystem);
+    systems.append(drawSystem);
+    systems.append(collisionSystem);
+    systems.append(inputSystem);
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> g){
@@ -40,14 +56,6 @@ bool GameWorld::removeGameObject(std::shared_ptr<GameObject> g){
         }
     }
     return removed;
-}
-
-void GameWorld::addSystem(std::shared_ptr<System> sys){
-    systems.append(sys);
-}
-
-bool GameWorld::removeSystem(std::shared_ptr<System> sys){
-    return systems.removeOne(sys);
 }
 
 std::shared_ptr<QMap<int, bool>> GameWorld::getKeyMap(){
