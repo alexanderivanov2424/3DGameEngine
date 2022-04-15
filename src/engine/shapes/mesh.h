@@ -3,7 +3,7 @@
 
 #include "engine/util/CommonIncludes.h"
 #include <vector>
-
+#include <QGLWidget>
 
 class Triangle{
 public:
@@ -49,7 +49,7 @@ public:
 
 public:
     glm::vec3 m_pos = glm::vec3(0,0,0);
-    std::vector<Triangle> m_triangles;
+    std::vector<std::shared_ptr<Triangle>> m_triangles;
 };
 
 #endif // MESH_H

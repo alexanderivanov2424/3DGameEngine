@@ -4,6 +4,8 @@
 #include "engine/util/CommonIncludes.h"
 #include "engine/systems/system.h"
 
+#include "engine/systems/collisionUtils/kdtreecollision.h"
+
 class Mesh;
 class Triangle;
 class Ellipsoid;
@@ -28,7 +30,10 @@ class MeshCollision
 {
 public:
     static Collision collide(std::shared_ptr<Mesh> mesh, std::shared_ptr<Ellipsoid> ellipse, glm::vec3 nextPos);
+    static Collision collide(std::shared_ptr<KDTreeCollision<Triangle>> kDTree, std::shared_ptr<Ellipsoid> ellipse, glm::vec3 nextPos);
+
     static Collision slide(std::shared_ptr<Mesh> mesh, std::shared_ptr<Ellipsoid> ellipse, glm::vec3 nextPos);
+    static Collision slide(std::shared_ptr<KDTreeCollision<Triangle>> kDTree, std::shared_ptr<Ellipsoid> ellipse, glm::vec3 nextPos);
 
 private:
     static Collision SphereTriangleCollision(glm::vec3 A, glm::vec3 B, Triangle triangle);

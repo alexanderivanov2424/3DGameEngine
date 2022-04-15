@@ -22,8 +22,12 @@ win32 {
 SOURCES += \
     libs/glew-1.10.0/src/glew.c \
     src/OBJLoader.cpp \
+    src/engine/AILib/astar.cpp \
+    src/engine/AILib/btnode.cpp \
+    src/engine/AILib/navmesh.cpp \
     src/engine/application.cpp \
     src/engine/component.cpp \
+    src/engine/components/aicomponent.cpp \
     src/engine/components/cameracomponent.cpp \
     src/engine/components/cylindercollisioncomponent.cpp \
     src/engine/components/cylindercomponent.cpp \
@@ -36,6 +40,8 @@ SOURCES += \
     src/engine/screen.cpp \
     src/engine/shapes/ellipsoid.cpp \
     src/engine/shapes/mesh.cpp \
+    src/engine/systems/collisionUtils/bvhcollision.cpp \
+    src/engine/systems/collisionUtils/kdtreecollision.cpp \
     src/engine/systems/collisionUtils/meshcollision.cpp \
     src/engine/systems/collisionsystem.cpp \
     src/engine/systems/drawsystem.cpp \
@@ -44,6 +50,7 @@ SOURCES += \
     src/engine/systems/ticksystem.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/platformer/enemyaicomponent.cpp \
     src/platformer/platformerapp.cpp \
     src/platformer/platformerscreen.cpp \
     src/view.cpp \
@@ -79,8 +86,12 @@ HEADERS += \
     libs/stb/stb_rect_pack.h \
     libs/stb/stb_truetype.h \
     src/OBJLoader.h \
+    src/engine/AILib/astar.h \
+    src/engine/AILib/btnode.h \
+    src/engine/AILib/navmesh.h \
     src/engine/application.h \
     src/engine/component.h \
+    src/engine/components/aicomponent.h \
     src/engine/components/cameracomponent.h \
     src/engine/components/cylindercollisioncomponent.h \
     src/engine/components/cylindercomponent.h \
@@ -93,6 +104,8 @@ HEADERS += \
     src/engine/screen.h \
     src/engine/shapes/ellipsoid.h \
     src/engine/shapes/mesh.h \
+    src/engine/systems/collisionUtils/bvhcollision.h \
+    src/engine/systems/collisionUtils/kdtreecollision.h \
     src/engine/systems/collisionUtils/meshcollision.h \
     src/engine/systems/collisionsystem.h \
     src/engine/systems/drawsystem.h \
@@ -101,6 +114,7 @@ HEADERS += \
     src/engine/systems/ticksystem.h \
     src/engine/util/TypeMap.h \
     src/mainwindow.h \
+    src/platformer/enemyaicomponent.h \
     src/platformer/platformerapp.h \
     src/platformer/platformerscreen.h \
     src/view.h \
@@ -148,6 +162,7 @@ OTHER_FILES += \
     res/images/grass.png \
 
 DISTFILES += \
+    res/images/waves.png \
     res/obj/large_environment.obj \
     res/obj/level_easy.obj \
     res/obj/level_easy.png \

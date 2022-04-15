@@ -7,7 +7,7 @@ Mesh::Mesh(const std::vector<float> &m_positions, const std::vector<float> &m_no
         glm::vec3 v3 = glm::vec3(m_positions[i+6], m_positions[i+7], m_positions[i+8]);
         glm::vec3 normal = glm::vec3(m_normals[i], m_normals[i+1], m_normals[i+2]);
 
-        m_triangles.push_back(Triangle(v1,v2,v3,normal));
+        m_triangles.push_back(std::make_shared<Triangle>(v1,v2,v3,normal));
     }
 }
 
@@ -19,6 +19,6 @@ Mesh::Mesh(const std::vector<float> &m_positions, const std::vector<float> &m_no
         glm::vec3 v3 = glm::vec3(m_positions[i+6], m_positions[i+7], m_positions[i+8]);
         glm::vec3 normal = glm::vec3(m_normals[i], m_normals[i+1], m_normals[i+2]);
 
-        m_triangles.push_back(Triangle(v1,v2,v3,normal));
+        m_triangles.push_back(std::make_shared<Triangle>(v1,v2,v3,normal));
     }
 }

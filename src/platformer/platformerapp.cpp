@@ -35,17 +35,34 @@ void PlatformerApp::onStartup(Graphics *g){
     green.color = glm::vec3(0, 0, 1);
     g->addMaterial("green", green);
 
+    Material grassMaterial;
+    grassMaterial.textureName = "grass";
+    g->addMaterial("grass", grassMaterial);
+
     Material mySecondMaterial;
-    mySecondMaterial.textureName = "grass";
-    g->addMaterial("grass", mySecondMaterial);
+    mySecondMaterial.textureName = "waves";
+    g->addMaterial("waves", mySecondMaterial);
 
-    OBJData obj = OBJLoader::loadOBJ("C://Users//Alexander\ Ivanov//Desktop//3D\ Game\ Engines//engine//engine//res//obj//level_easy.obj");
-    const std::shared_ptr<Shape> &mesh_shape = std::make_shared<Shape>(
-                (const std::vector<float>) obj.positions,
-                (const std::vector<float>) obj.normals,
-                (const std::vector<float>) obj.uvs);
-    g->addShape("mesh", mesh_shape);
+//    OBJData objSmall = OBJLoader::loadOBJ("C://Users//Alexander\ Ivanov//Desktop//3D\ Game\ Engines//engine//engine//res//obj//level_easy.obj");
+//    const std::shared_ptr<Shape> &mesh_small_shape = std::make_shared<Shape>(
+//                (const std::vector<float>) objSmall.positions,
+//                (const std::vector<float>) objSmall.normals,
+//                (const std::vector<float>) objSmall.uvs);
+//    g->addShape("meshSmall", mesh_small_shape);
 
+//    OBJData obj = OBJLoader::loadOBJ("C://Users//Alexander\ Ivanov//Desktop//3D\ Game\ Engines//engine//engine//res//obj//large_environment.obj");
+//    const std::shared_ptr<Shape> &mesh_shape = std::make_shared<Shape>(
+//                (const std::vector<float>) obj.positions,
+//                (const std::vector<float>) obj.normals,
+//                (const std::vector<float>) obj.uvs);
+//    g->addShape("mesh", mesh_shape);
+
+    OBJData objSmall = OBJLoader::loadOBJ("C://Users//Alexander\ Ivanov//Desktop//3D\ Game\ Engines//engine//engine//res//obj//level_easy.obj");
+    const std::shared_ptr<Shape> &mesh_small_shape = std::make_shared<Shape>(
+                (const std::vector<float>) objSmall.positions,
+                (const std::vector<float>) objSmall.normals,
+                (const std::vector<float>) objSmall.uvs);
+    g->addShape("mesh", mesh_small_shape);
 
 
     gameScreen = std::make_shared<PlatformerScreen>((std::shared_ptr<Application>)this);

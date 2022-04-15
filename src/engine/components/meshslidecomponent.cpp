@@ -24,12 +24,24 @@ MeshSlideComponent::MeshSlideComponent(std::shared_ptr<GameObject> g, std::share
     this->mesh = mesh;
 }
 
+MeshSlideComponent::MeshSlideComponent(std::shared_ptr<GameObject> g, std::shared_ptr<KDTreeCollision<Triangle>> kDTree) : Component(g){
+    ellipsoid = std::make_shared<Ellipsoid>(glm::vec3(0,0,0), glm::vec3(1,1,1));
+    this->kDTree = kDTree;
+}
+
+MeshSlideComponent::MeshSlideComponent(std::shared_ptr<GameObject> g, std::shared_ptr<KDTreeCollision<Triangle>> kDTree, std::shared_ptr<Ellipsoid> ellipsoid) : Component(g){
+    this->ellipsoid = ellipsoid;
+    this->kDTree = kDTree;
+}
+
 void MeshSlideComponent::tick(float seconds){
     std::shared_ptr<QMap<int,bool>> keyMap = this->gameObject->gameWorld->getKeyMap();
     std::shared_ptr<TransformComponent> transform = this->gameObject->getComponent<TransformComponent>();
     std::shared_ptr<Camera> camera = this->gameObject->gameWorld->getCamera();
 
     float speed = .1f;
+    if((*keyMap)[Qt::Key_Shift]) speed *= 10;
+
 
     glm::vec3 next_pos = transform->transform;
 
@@ -53,7 +65,12 @@ void MeshSlideComponent::tick(float seconds){
 
         ellipsoid->m_pos = transform->transform;
         ellipsoid->m_pos = root;
-        Collision c = MeshCollision::collide(mesh, ellipsoid, next_pos);
+        Collision c;
+        if(mesh){
+            c = MeshCollision::collide(mesh, ellipsoid, next_pos);
+        } else if(kDTree){
+            c = MeshCollision::collide(kDTree, ellipsoid, next_pos);
+        }
 
         transform->transform = next_pos;
         bounce = c.contact;
@@ -74,18 +91,26 @@ void MeshSlideComponent::tick(float seconds){
             onGround = true;
         }
 
-    ellipsoid->m_pos = transform->transform;
-    Collision c = MeshCollision::slide(mesh, ellipsoid, next_pos);
+        ellipsoid->m_pos = transform->transform;
+        Collision c;
+        if(mesh){
+            c = MeshCollision::slide(mesh, ellipsoid, next_pos);
+        } else if(kDTree){
+            c = MeshCollision::slide(kDTree, ellipsoid, next_pos);
+        }
 
-    if(c.isCollision){
-        onGround = true;
-        next_pos = c.contact;
-        playerYVel = 0;
+        if(c.isCollision){
+            onGround = true;
+            next_pos = c.contact;
+            playerYVel = 0;
+        }
+
+        transform->transform = next_pos;
+
     }
 
-    transform->transform = next_pos;
-
-    }
+    if((*keyMap)[Qt::Key_R]) transform->transform = glm::vec3(0,60,0);
+    if((*keyMap)[Qt::Key_T]) transform->transform = glm::vec3(1,6,1);
 }
 
 void MeshSlideComponent::draw(Graphics *g){
